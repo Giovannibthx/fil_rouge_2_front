@@ -4,7 +4,7 @@ const Posts = () => {
   return (
     <>
       <Nav />
-      <h1>Posts</h1>
+      <h1 className="text-4xl text-center">Posts</h1>
     </>
   );
 };
