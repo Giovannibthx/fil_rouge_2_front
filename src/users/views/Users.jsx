@@ -1,12 +1,12 @@
 import Nav from "../../nav/views/Nav";
 
-const Home = () => {
+const Users = () => {
   return (
     <>
       <Nav />
-      <h1>Home</h1>
+      <h1>Users</h1>
     </>
   );
 };
 
-export default Home;
+export default Users;
