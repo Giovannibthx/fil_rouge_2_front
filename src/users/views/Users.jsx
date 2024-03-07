@@ -25,7 +25,7 @@ const Users = () => {
           <div className="flex flex-wrap justify-center gap-4">
             {data && data.pages[0].length > 0 ? (
               data.pages[0].map((user) => 
-                  <UserCard key={user._id} name={`${user.first_name} ${user.last_name}`} />
+                  <UserCard key={user._id} name={`${user.first_name}_${user.last_name}`} />
               )
             ) : (
               <p className="mt-6">No users found</p>

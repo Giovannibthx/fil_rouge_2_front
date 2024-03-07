@@ -1,9 +1,10 @@
 import {Card, CardHeader, Avatar, Button} from "@nextui-org/react";
+import { Icon } from '@iconify/react';
 
 const UserCard = ({ name }) => {
 
   return (
-    <Card className="max-w-[340px] m-2">
+    <Card className="max-w-[330px] m-2">
       <CardHeader className="justify-between">
         <div className="flex gap-5">
           <Avatar isBordered radius="full" size="md" src="/avatars/avatar-1.png" />
@@ -18,8 +19,16 @@ const UserCard = ({ name }) => {
           size="sm"
           className="ml-7"
         >
-          View Posts
+          Posts
         </Button>
+        <div>
+        <Button isIconOnly color="danger" aria-label="Like" size="sm" radius="full"  className="m-1">
+          <Icon icon="octicon:trash-16" style={{ fontSize: '12px'}} />
+        </Button>
+        <Button isIconOnly color="default" aria-label="Like" size="sm" radius="full"  className="m-1">
+          <Icon icon="fluent:edit-12-regular" style={{ fontSize: '12px', color: "whi"}} />
+        </Button>
+        </div>
       </CardHeader>
     </Card>
   );

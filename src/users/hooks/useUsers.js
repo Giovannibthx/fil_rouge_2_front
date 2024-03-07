@@ -1,6 +1,8 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
+import { createNotification } from "../../utils/Notification";
+
 /**
  * KEYS
  */
@@ -61,14 +63,13 @@ const useUserUpsert = () => {
             },
             onSuccess: (response, previousUser) => {
                 const status = !previousUser._id ? "created" : "updated";
-                console.log(
-                    "success",
-                    response.projectName,
-                    `has been ${status}.`
+                createNotification(
+                    `${response.first_name} has been ${status}.`,
+                    "success"
                 );
             },
-            onError: (error) => {
-                console.log("error", "User upsert error: ", `${error}`);
+            onError: () => {
+                createNotification("User upsert error", "error");
             },
             onSettled: () => {
                 queryClient.invalidateQueries(usersKeys.all);

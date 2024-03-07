@@ -34,8 +34,8 @@ const Nav = () => {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <a className="text-primary">Login</a>
+        <NavbarItem onClick={handleNavigate('/register')} className="hidden lg:flex">
+          <a className="text-primary" style={{ cursor: 'pointer' }}>Login</a>
         </NavbarItem>
         <NavbarItem>
           <Button as={Link} color="primary" href="#" variant="flat">
