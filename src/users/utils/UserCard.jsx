@@ -16,6 +16,7 @@ const UserCard = ({ name }) => {
           color="primary"
           radius="full"
           size="sm"
+          className="ml-7"
         >
           View Posts
         </Button>
