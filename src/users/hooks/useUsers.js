@@ -35,10 +35,15 @@ const upsertUser = async (user) => {
     }
 };
 
+const deleteUser = async (id) => {
+    const { data } = await axios.delete(`http://localhost:3000/users/${id}`);
+    return data;
+};
+
 /**
  * HOOKS
  */
-// READ
+
 const useUsers = () => {
     return useInfiniteQuery(usersKeys.all, () => searchUsers(), {
         select: (data) => {
@@ -78,4 +83,32 @@ const useUserUpsert = () => {
     );
 };
 
-export { useUsers, useUserUpsert };
+const useUserDelete = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation(
+        async (id) => {
+            return deleteUser(id);
+        },
+        {
+            onMutate: async (id) => {
+                const detailKey = usersKeys.detail(id);
+                await queryClient.cancelQueries(detailKey);
+            },
+            onSuccess: (response) => {
+                createNotification(
+                    `${response.first_name} has been deleted.`,
+                    "success"
+                );
+            },
+            onError: () => {
+                createNotification("User delete error", "error");
+            },
+            onSettled: () => {
+                queryClient.invalidateQueries(usersKeys.all);
+            },
+        }
+    );
+};
+
+export { useUsers, useUserUpsert, useUserDelete };

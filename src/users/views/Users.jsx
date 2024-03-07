@@ -3,11 +3,12 @@ import { CircularProgress } from "@nextui-org/react";
 import Nav from "../../nav/views/Nav";
 import UserCard from "../utils/UserCard";
 import UpsertModal from "./UpsertModal";
-import { useUsers, useUserUpsert } from "../hooks/useUsers";
+import { useUsers, useUserUpsert, useUserDelete } from "../hooks/useUsers";
 
 const Users = () => {
   const { data, isLoading } = useUsers();
   const { mutate, isLoading: isLoadingUpsert } = useUserUpsert();
+  const { mutate: deleteUser, isLoading: isDeleting } = useUserDelete();
 
   return (
     <>
@@ -25,7 +26,7 @@ const Users = () => {
           <div className="flex flex-wrap justify-center gap-4">
             {data && data.pages[0].length > 0 ? (
               data.pages[0].map((user) => 
-                  <UserCard key={user._id} name={`${user.first_name}_${user.last_name}`} />
+                  <UserCard key={user._id} name={`${user.first_name} ${user.last_name}`} id={user._id} deleteUser={deleteUser} isDeleting={isDeleting} />
               )
             ) : (
               <p className="mt-6">No users found</p>

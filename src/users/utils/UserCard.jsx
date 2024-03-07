@@ -1,7 +1,11 @@
 import {Card, CardHeader, Avatar, Button} from "@nextui-org/react";
 import { Icon } from '@iconify/react';
 
-const UserCard = ({ name }) => {
+const UserCard = ({ name, id, deleteUser, isDeleting }) => {
+
+  const handleDelete = (userId) => {
+    deleteUser(userId);
+  };
 
   return (
     <Card className="max-w-[330px] m-2">
@@ -21,12 +25,12 @@ const UserCard = ({ name }) => {
         >
           Posts
         </Button>
-        <div>
-        <Button isIconOnly color="danger" aria-label="Like" size="sm" radius="full"  className="m-1">
+        <div className="max-w-[40px]">
+        <Button isIconOnly color="danger" size="sm" radius="full" isLoading={isDeleting} onClick={() => handleDelete(id)} className="m-1">
           <Icon icon="octicon:trash-16" style={{ fontSize: '12px'}} />
         </Button>
-        <Button isIconOnly color="default" aria-label="Like" size="sm" radius="full"  className="m-1">
-          <Icon icon="fluent:edit-12-regular" style={{ fontSize: '12px', color: "whi"}} />
+        <Button isIconOnly color="default" size="sm" radius="full"  className="m-1">
+          <Icon icon="fluent:edit-12-regular" style={{ fontSize: '12px', color: "white"}} />
         </Button>
         </div>
       </CardHeader>

@@ -12,6 +12,11 @@ const register = async (user) => {
     return data;
 };
 
+const login = async (user) => {
+    const { data } = await axios.post("http://localhost:3000/login", user);
+    return data;
+};
+
 /**
  * HOOKS
  */
@@ -38,4 +43,26 @@ const useRegister = () => {
     );
 };
 
-export { useRegister };
+const useLogin = () => {
+    return useMutation(
+        async (user) => {
+            return login(user);
+        },
+        {
+            onMutate: async (user) => {
+                return { user };
+            },
+            onSuccess: (response) => {
+                createNotification(
+                    `Welcome back ${response.first_name} !`,
+                    "success"
+                );
+            },
+            onError: () => {
+                createNotification("Login error...", "error");
+            },
+        }
+    );
+};
+
+export { useRegister, useLogin };

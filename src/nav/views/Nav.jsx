@@ -1,6 +1,8 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Link } from "@nextui-org/react";
 
+import LoginModal from "../../auth/views/LoginModal";
+
 const Nav = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,12 +37,10 @@ const Nav = () => {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem onClick={handleNavigate('/register')} className="hidden lg:flex">
-          <a className="text-primary" style={{ cursor: 'pointer' }}>Login</a>
+          <a className="text-primary" style={{ cursor: 'pointer' }}>Sign Up</a>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
+          <LoginModal />
         </NavbarItem>
       </NavbarContent>
     </Navbar>
