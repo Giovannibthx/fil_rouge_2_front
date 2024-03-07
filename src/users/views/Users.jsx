@@ -1,26 +1,20 @@
-import { CircularProgress, Button } from "@nextui-org/react";
-import { Icon } from '@iconify/react';
+import { CircularProgress } from "@nextui-org/react";
 
 import Nav from "../../nav/views/Nav";
 import UserCard from "../utils/UserCard";
-import { useUsers } from "../hooks/useUsers";
+import UpsertModal from "./UpsertModal";
+import { useUsers, useUserUpsert } from "../hooks/useUsers";
 
 const Users = () => {
   const { data, isLoading } = useUsers();
+  const { mutate, isLoading: isLoadingUpsert } = useUserUpsert();
 
   return (
     <>
       <Nav />
       <div className="flex items-center justify-center space-x-4 mt-8">
         <h1 className="text-4xl">Users</h1>
-        <Button
-            color="primary"
-            radius="full"
-            size="sm"
-            endContent={<Icon icon="lucide:user-plus" style={{ fontSize: '16px'}} />}
-          >
-          Add User
-        </Button>
+        <UpsertModal mutate={mutate} isLoading={isLoadingUpsert} />
       </div>
       {isLoading ? (
         <div className="flex items-center justify-center min-h-screen">
