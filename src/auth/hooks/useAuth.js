@@ -1,6 +1,7 @@
 import { useMutation } from "react-query";
 import axios from "axios";
 
+import useTokenStore from "./useTokenStore";
 import { createNotification } from "../../utils/Notification";
 
 /**
@@ -14,7 +15,8 @@ const register = async (user) => {
 
 const login = async (user) => {
     const { data } = await axios.post("http://localhost:3000/login", user);
-    return data;
+    const token = data.headers["auth-token"];
+    return { data, token };
 };
 
 /**
@@ -44,6 +46,7 @@ const useRegister = () => {
 };
 
 const useLogin = () => {
+    const { setToken } = useTokenStore();
     return useMutation(
         async (user) => {
             return login(user);
@@ -52,7 +55,9 @@ const useLogin = () => {
             onMutate: async (user) => {
                 return { user };
             },
-            onSuccess: (response) => {
+            onSuccess: ({ response, token }) => {
+                setToken(token);
+                localStorage.setItem("token", token);
                 createNotification(
                     `Welcome back ${response.first_name} !`,
                     "success"

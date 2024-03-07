@@ -1,6 +1,8 @@
 import {Card, CardHeader, Avatar, Button} from "@nextui-org/react";
 import { Icon } from '@iconify/react';
 
+import UpsertModal from "../views/UpsertModal";
+
 const UserCard = ({ name, id, deleteUser, isDeleting }) => {
 
   const handleDelete = (userId) => {
@@ -29,9 +31,7 @@ const UserCard = ({ name, id, deleteUser, isDeleting }) => {
         <Button isIconOnly color="danger" size="sm" radius="full" isLoading={isDeleting} onClick={() => handleDelete(id)} className="m-1">
           <Icon icon="octicon:trash-16" style={{ fontSize: '12px'}} />
         </Button>
-        <Button isIconOnly color="default" size="sm" radius="full"  className="m-1">
-          <Icon icon="fluent:edit-12-regular" style={{ fontSize: '12px', color: "white"}} />
-        </Button>
+        <UpsertModal isUpdate />
         </div>
       </CardHeader>
     </Card>

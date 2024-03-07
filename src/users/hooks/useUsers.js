@@ -1,4 +1,9 @@
-import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
+import {
+    useInfiniteQuery,
+    useMutation,
+    useQueryClient,
+    useQuery,
+} from "react-query";
 import axios from "axios";
 
 import { createNotification } from "../../utils/Notification";
@@ -19,6 +24,11 @@ const usersKeys = {
 
 const searchUsers = async () => {
     const { data } = await axios.get("http://localhost:3000/users");
+    return data;
+};
+
+const searchUser = async (id) => {
+    const { data } = await axios.get(`http://localhost:3000/users/${id}`);
     return data;
 };
 
@@ -49,6 +59,12 @@ const useUsers = () => {
         select: (data) => {
             return data;
         },
+    });
+};
+
+const useUser = (id) => {
+    return useQuery(usersKeys.detail(id), () => searchUser(id), {
+        enabled: !!id,
     });
 };
 
@@ -111,4 +127,4 @@ const useUserDelete = () => {
     );
 };
 
-export { useUsers, useUserUpsert, useUserDelete };
+export { useUsers, useUserUpsert, useUserDelete, useUser };

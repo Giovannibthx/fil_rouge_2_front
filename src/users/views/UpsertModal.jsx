@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
 import { Icon } from '@iconify/react';
 
-const  UpsertModal = ({ mutate, isLoading }) => {
+const  UpsertModal = ({ mutate, isLoading, isUpdate }) => {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const [form, setForm] = useState({
@@ -28,6 +28,11 @@ const  UpsertModal = ({ mutate, isLoading }) => {
 
   return (
     <>
+      {isUpdate ? (
+        <Button onPress={onOpen} isIconOnly color="default" size="sm" radius="full"  className="m-1">
+          <Icon icon="fluent:edit-12-regular" style={{ fontSize: '12px', color: "white"}} />
+        </Button>
+      ) : (
       <Button
         onPress={onOpen}
         color="primary"
@@ -35,8 +40,9 @@ const  UpsertModal = ({ mutate, isLoading }) => {
         size="sm"
         endContent={<Icon icon="lucide:user-plus" style={{ fontSize: '16px'}} />}
         >
-        Add user
-      </Button>
+        { isUpdate ? "Update user" : "Add user"}
+        </Button>
+      )}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
