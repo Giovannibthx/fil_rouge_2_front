@@ -1,11 +1,12 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
 import { Icon } from '@iconify/react';
 
 const  UpsertModal = ({ mutate, isLoading, isUpdate }) => {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
-
+  
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -70,6 +71,12 @@ const  UpsertModal = ({ mutate, isLoading, isUpdate }) => {
       </Modal>
     </>
   );
+};
+
+UpsertModal.propTypes = {
+  mutate: PropTypes.func,
+  isLoading: PropTypes.bool,
+  isUpdate: PropTypes.bool
 };
 
 export default UpsertModal;

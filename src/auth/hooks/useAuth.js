@@ -14,8 +14,9 @@ const register = async (user) => {
 };
 
 const login = async (user) => {
-    const { data } = await axios.post("http://localhost:3000/login", user);
-    const token = data.headers["auth-token"];
+    const response = await axios.post("http://localhost:3000/login", user);
+    const data = response.data;
+    const token = response.headers["auth-token"];
     return { data, token };
 };
 
@@ -55,13 +56,10 @@ const useLogin = () => {
             onMutate: async (user) => {
                 return { user };
             },
-            onSuccess: ({ response, token }) => {
+            onSuccess: ({ token }) => {
                 setToken(token);
-                localStorage.setItem("token", token);
-                createNotification(
-                    `Welcome back ${response.first_name} !`,
-                    "success"
-                );
+                localStorage.setItem("auth-token", token);
+                createNotification(`Welcome back !`, "success");
             },
             onError: () => {
                 createNotification("Login error...", "error");
@@ -70,4 +68,22 @@ const useLogin = () => {
     );
 };
 
-export { useRegister, useLogin };
+const useLogout = () => {
+    const { setToken } = useTokenStore();
+    return useMutation(
+        async () => {
+            setToken(undefined);
+            localStorage.removeItem("auth-token");
+        },
+        {
+            onSuccess: () => {
+                createNotification(`Goodbye !`, "success");
+            },
+            onError: () => {
+                createNotification("Logout error...", "error");
+            },
+        }
+    );
+};
+
+export { useRegister, useLogin, useLogout };

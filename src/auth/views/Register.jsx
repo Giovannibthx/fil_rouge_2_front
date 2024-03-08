@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button, Input } from "@nextui-org/react";
 
 import { useRegister } from "../hooks/useAuth";
-
+import PasswordField from "../utils/PasswordField";
 
 import Nav from "../../nav/views/Nav";
 
@@ -38,7 +38,7 @@ const Register = () => {
       <Input size="md" type="text" label="First name" name="first_name" onChange={handleInputChange} isRequired className="mb-3 w-full" />
       <Input size="md" type="text" label="Last name" name="last_name" onChange={handleInputChange} isRequired className="mb-3 w-full" />
       <Input size="md" type="email" label="Email" name="email" onChange={handleInputChange} isRequired className="mb-3 w-full" />
-      <Input size="md" type="password" label="Password" name="password" onChange={handleInputChange} isRequired className="mb-3 w-full" />
+      <PasswordField variant="flat" onChange={handleInputChange} className="mb-3 w-full" isRequired />
       <Button color="primary" type="submit" className="w-full mt-2" isLoading={isLoading}>
         Submit
       </Button>

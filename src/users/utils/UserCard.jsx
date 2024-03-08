@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import {Card, CardHeader, Avatar, Button} from "@nextui-org/react";
 import { Icon } from '@iconify/react';
 
@@ -36,6 +38,13 @@ const UserCard = ({ name, id, deleteUser, isDeleting }) => {
       </CardHeader>
     </Card>
   );
+};
+
+UserCard.propTypes = {
+  name: PropTypes.string,
+  id: PropTypes.string,
+  deleteUser: PropTypes.func,
+  isDeleting: PropTypes.bool,
 };
 
 export default UserCard;

@@ -1,11 +1,13 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Link } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
 
+import useTokenStore from "../../auth/hooks/useTokenStore";
 import LoginModal from "../../auth/views/LoginModal";
 
 const Nav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { token } = useTokenStore();
 
   const handleNavigate = (path) => () => {
     navigate(path);
@@ -36,11 +38,13 @@ const Nav = () => {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem onClick={handleNavigate('/register')} className="hidden lg:flex">
+        {!token && (
+          <NavbarItem onClick={handleNavigate('/register')} className="hidden lg:flex">
           <a className="text-primary" style={{ cursor: 'pointer' }}>Sign Up</a>
         </NavbarItem>
+        )}
         <NavbarItem>
-          <LoginModal />
+          <LoginModal token={token} />
         </NavbarItem>
       </NavbarContent>
     </Navbar>

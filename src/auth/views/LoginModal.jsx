@@ -1,13 +1,16 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
 
-import { useLogin } from "../hooks/useAuth";
+import { useLogin, useLogout } from "../hooks/useAuth";
+import PasswordField from "../utils/PasswordField";
 
-const  LoginModal = () => {
+const  LoginModal = ({ token }) => {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const { mutate, isLoading } = useLogin();
-
+  const { mutate: logout, isLoading: isLogoutLoading } = useLogout();
+  
   const [form, setForm] = useState({
     email: '',
     password: ''
@@ -25,9 +28,18 @@ const  LoginModal = () => {
       [name]: value
     }));
   };
-
+  
   return (
     <>
+    {token ? (
+      <Button
+      onPress={onOpen}
+      variant="flat"
+      color="primary"
+      >
+        Sign Out
+      </Button>
+    ) : (
       <Button
         onPress={onOpen}
         variant="flat"
@@ -35,31 +47,50 @@ const  LoginModal = () => {
         >
         Sign In
       </Button>
+    )}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
-              <form onSubmit={handleFormSubmit}>
-                <ModalHeader className="flex flex-col gap-1 text-center">Sign in now !</ModalHeader>
-                <ModalBody>
-                    <Input size="md" type="email" label="Email" name="email" onChange={handleInputChange} isRequired />
-                    <Input size="md" type="password" label="Password" name="password" onChange={handleInputChange} isRequired />
-                </ModalBody>
+              {token ? (
+                <>
+                <ModalHeader className="flex flex-col gap-1 text-center">Are you sure you want to sign out ? 😭</ModalHeader>
                 <ModalFooter>
                   <Button color="danger" variant="light" onPress={onClose}>
                     Close
                   </Button>
-                  <Button color="primary" onPress={!isLoading ? onClose : null} isLoading={isLoading} type="submit">
-                    Submit
+                  <Button color="primary" onPress={!isLogoutLoading ? onClose : null} isLoading={isLogoutLoading} onClick={logout}>
+                    Yes
                   </Button>
                 </ModalFooter>
-              </form>
+                </>
+              ) : (
+                <form onSubmit={handleFormSubmit}>
+                  <ModalHeader className="flex flex-col gap-1 text-center">Sign in now ! 🤘🏼</ModalHeader>
+                  <ModalBody>
+                      <Input variant="flat" size="md" type="email" label="Email" name="email" onChange={handleInputChange} isRequired />
+                      <PasswordField variant="flat" onChange={handleInputChange} isRequired />
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="danger" variant="light" onPress={onClose}>
+                      Close
+                    </Button>
+                    <Button color="primary" onPress={!isLoading ? onClose : null} isLoading={isLoading} type="submit">
+                      Submit
+                    </Button>
+                  </ModalFooter>
+                </form>
+              )}
             </>
           )}
         </ModalContent>
       </Modal>
     </>
   );
+};
+
+LoginModal.propTypes = {
+  token: PropTypes.string
 };
 
 export default LoginModal;
