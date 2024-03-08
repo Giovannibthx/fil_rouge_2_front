@@ -56,11 +56,14 @@ const useLogin = (shouldNotify = true) => {
             onMutate: async (user) => {
                 return { user };
             },
-            onSuccess: ({ token }) => {
+            onSuccess: ({ data, token }) => {
                 setToken(token);
                 localStorage.setItem("auth-token", token);
                 if (shouldNotify) {
-                    createNotification(`Welcome back !`, "success");
+                    createNotification(
+                        `Welcome back ${data.first_name} !`,
+                        "success"
+                    );
                 }
             },
             onError: () => {

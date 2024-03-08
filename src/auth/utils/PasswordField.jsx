@@ -37,7 +37,8 @@ PasswordField.propTypes = {
   className: PropTypes.string,
   size: PropTypes.string,
   isRequired: PropTypes.bool,
-  variant: PropTypes.string
+  variant: PropTypes.string,
+  defaultValue: PropTypes.string
 };
 
 export default PasswordField;

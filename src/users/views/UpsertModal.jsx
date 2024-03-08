@@ -4,19 +4,36 @@ import PropTypes from "prop-types";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
 import { Icon } from '@iconify/react';
 
-const  UpsertModal = ({ mutate, isLoading, isUpdate }) => {
+import PasswordField from "../../auth/utils/PasswordField";
+import { useUserUpsert } from "../hooks/useUsers";
+
+const  UpsertModal = ({ isUpdate, user }) => {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
-  
-  const [form, setForm] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    password: ''
-  });
+  const { mutate, isLoading } = useUserUpsert();
+
+  const initializeFormState = () => {
+    if (user && isUpdate) {
+      return {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        password: '',
+      };
+    } else {
+      return {
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+      };
+    }
+  };
+
+  const [form, setForm] = useState(initializeFormState);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    mutate(form);
+    mutate({ _id : user._id, form });
   };
 
   const handleInputChange = (e) => {
@@ -51,10 +68,10 @@ const  UpsertModal = ({ mutate, isLoading, isUpdate }) => {
               <form onSubmit={handleFormSubmit}>
                 <ModalHeader className="flex flex-col gap-1">Add user</ModalHeader>
                 <ModalBody>
-                    <Input size="md" type="text" label="Fist name" name="first_name" onChange={handleInputChange} isRequired />
-                    <Input size="md" type="text" label="Last name" name="last_name" onChange={handleInputChange} isRequired />
-                    <Input size="md" type="email" label="Email" name="email" onChange={handleInputChange} isRequired />
-                    <Input size="md" type="password" label="Password" name="password" onChange={handleInputChange} isRequired />
+                    <Input variant="faded" size="md" type="text" label="Fist name" name="first_name" onChange={handleInputChange} isRequired defaultValue={user.first_name || undefined} />
+                    <Input variant="faded" size="md" type="text" label="Last name" name="last_name" onChange={handleInputChange} isRequired defaultValue={user.last_name || undefined}/>
+                    <Input variant="faded" size="md" type="email" label="Email" name="email" onChange={handleInputChange} isRequired defaultValue={user.email || undefined} />
+                    <PasswordField variant="faded" onChange={handleInputChange} isRequired />
                 </ModalBody>
                 <ModalFooter>
                   <Button color="danger" variant="light" onPress={onClose}>
@@ -74,9 +91,8 @@ const  UpsertModal = ({ mutate, isLoading, isUpdate }) => {
 };
 
 UpsertModal.propTypes = {
-  mutate: PropTypes.func,
-  isLoading: PropTypes.bool,
-  isUpdate: PropTypes.bool
+  isUpdate: PropTypes.bool,
+  user: PropTypes.object
 };
 
 export default UpsertModal;
