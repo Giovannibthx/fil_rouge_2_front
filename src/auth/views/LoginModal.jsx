@@ -68,8 +68,8 @@ const  LoginModal = ({ token }) => {
                 <form onSubmit={handleFormSubmit}>
                   <ModalHeader className="flex flex-col gap-1 text-center">Sign in now ! 🤘🏼</ModalHeader>
                   <ModalBody>
-                      <Input variant="flat" size="md" type="email" label="Email" name="email" onChange={handleInputChange} isRequired />
-                      <PasswordField variant="flat" onChange={handleInputChange} isRequired />
+                      <Input variant="faded" size="md" type="email" label="Email" name="email" onChange={handleInputChange} isRequired />
+                      <PasswordField variant="faded" onChange={handleInputChange} isRequired />
                   </ModalBody>
                   <ModalFooter>
                     <Button color="danger" variant="light" onPress={onClose}>
