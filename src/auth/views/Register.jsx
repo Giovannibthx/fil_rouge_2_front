@@ -1,14 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Button, Input } from "@nextui-org/react";
 
-import { useRegister } from "../hooks/useAuth";
+import { useRegister, useLogin } from "../hooks/useAuth";
 import PasswordField from "../utils/PasswordField";
 
 import Nav from "../../nav/views/Nav";
 
 const Register = () => {
   const { mutate, isLoading } = useRegister();
+  const { mutate: login } = useLogin(false);
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     first_name: '',
@@ -19,7 +22,15 @@ const Register = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    mutate(form);
+    mutate(form, {
+      onSuccess: () => {
+        login({ email: form.email, password: form.password }, {
+          onSuccess: () => {
+            navigate('/');
+          }
+        });
+      }
+    });
   };
 
   const handleInputChange = (e) => {

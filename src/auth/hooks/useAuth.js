@@ -46,7 +46,7 @@ const useRegister = () => {
     );
 };
 
-const useLogin = () => {
+const useLogin = (shouldNotify = true) => {
     const { setToken } = useTokenStore();
     return useMutation(
         async (user) => {
@@ -59,7 +59,9 @@ const useLogin = () => {
             onSuccess: ({ token }) => {
                 setToken(token);
                 localStorage.setItem("auth-token", token);
-                createNotification(`Welcome back !`, "success");
+                if (shouldNotify) {
+                    createNotification(`Welcome back !`, "success");
+                }
             },
             onError: () => {
                 createNotification("Login error...", "error");
